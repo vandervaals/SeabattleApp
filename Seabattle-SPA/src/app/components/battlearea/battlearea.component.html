@@ -1,0 +1,14 @@
+<div class="container pb-5 mt-5">
+  <div class="row">
+    <div class="col-md-6 text-center mt-5">
+      <canvas #yourArea width="400" height="400"></canvas>
+      <div [hidden] = startGame class="text-center">
+        <button type="button" class="btn btn-primary mr-1" (click)="refreshShips()">Refresh ships</button>
+        <button type="button" class="btn btn-secondary" (click)="beginGame()">Begin game</button>
+      </div>
+    </div>
+    <div class="col-md-6 text-center mt-5">
+      <canvas #enemyArea width="400" height="400" (click)="makeShot($event)"></canvas>
+    </div>
+  </div>
+</div>
