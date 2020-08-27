@@ -16,6 +16,7 @@ import { UserRowComponent } from './components/users/user-row/user-row.component
 import { appRoutes } from './routes';
 import { AlertifyService } from './_services/alertify.service';
 import { environment } from 'src/environments/environment';
+import { SignalRService } from './_services/signalR.service';
 
 export function initConfig(): SignalRConfiguration {
   const cfg = new SignalRConfiguration();
@@ -50,7 +51,8 @@ export function initConfig(): SignalRConfiguration {
   ],
   providers: [
     AuthService,
-    AlertifyService
+    AlertifyService,
+    SignalRService
   ],
   bootstrap: [AppComponent]
 })

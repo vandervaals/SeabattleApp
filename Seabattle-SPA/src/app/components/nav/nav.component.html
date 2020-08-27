@@ -2,7 +2,7 @@
   <a class="navbar-brand" href="#">Battleship</a>
 
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active" routerLinkActive="active">
+      <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/home']">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item" routerLinkActive="active">
@@ -11,18 +11,15 @@
       <li class="nav-item" outerLinkActive="active">
         <a class="nav-link" [routerLink]="['/battlearea']">Battlearea</a>
       </li>
+      <li class="nav-item" outerLinkActive="active">
+        <a class="nav-link" (click)="logout()">Logout</a>
+      </li>
     </ul>
 
-    <div *ngIf="loggedIn()" class="dropdown" dropdown>
-      <a class="dropdown-toggle text-light" dropdownToggle>
+    <div *ngIf="loggedIn()">
+      <a class="text-light">
         Welcome!
       </a>
-
-      <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item" (click)="logout()">
-          <i class="fa fa-sign-out"></i> Logout
-        </a>
-      </div>
     </div>
 
     <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">

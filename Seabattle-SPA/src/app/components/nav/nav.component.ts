@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/_services/auth.service';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { SignalRService } from 'src/app/_services/signalR.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,7 +14,10 @@ export class NavComponent implements OnInit {
   test: string;
   authenticated = true;
 
-  constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router) { }
+  constructor(public authService: AuthService,
+              private alertify: AlertifyService,
+              private router: Router,
+              private signalR: SignalRService) { }
 
   ngOnInit() {
   }
@@ -26,6 +30,7 @@ export class NavComponent implements OnInit {
       this.alertify.error('Error');
       console.log(error.error);
     }, () => {
+      this.signalR.userConnect(this.model.username);
       this.router.navigate(['/users']);
     });
   }

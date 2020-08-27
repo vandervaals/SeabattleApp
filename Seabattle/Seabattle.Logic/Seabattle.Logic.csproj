@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Models\NewUserDto.cs" />
+    <Compile Include="Models\OnlineUser.cs" />
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Profiles\SeabattleProfile.cs" />
     <Compile Include="Profiles\UserProfile.cs" />

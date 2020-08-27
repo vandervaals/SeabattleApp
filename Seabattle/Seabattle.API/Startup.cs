@@ -48,6 +48,7 @@ namespace Seabattle.API
                 AllowAnyOrigin = true
             });
             app.UseCors(new CorsOptions { PolicyProvider = provide });
+            app.MapSignalR(new Microsoft.AspNet.SignalR.HubConfiguration { EnableDetailedErrors = true, EnableJSONP = true });
             //config.MessageHandlers.Add(new PreflightRequestsHandler());
 
             var issuer = ConfigurationManager.AppSettings["issuer"];
@@ -71,8 +72,6 @@ namespace Seabattle.API
                 Provider = new CustomOAuthProvider(kernel),
                 AccessTokenFormat = new CustomJwtFormat(issuer)
             });
-
-            app.MapSignalR(new Microsoft.AspNet.SignalR.HubConfiguration { EnableDetailedErrors = true, EnableJSONP = true });
 
             app.UseNinjectMiddleware(() => kernel).UseNinjectWebApi(config);
         }

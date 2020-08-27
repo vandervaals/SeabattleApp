@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OnlineUser } from 'src/app/_models/onlineUser';
+import { SignalRService } from 'src/app/_services/signalR.service';
 
 @Component({
   selector: 'app-user-list',
@@ -7,14 +8,23 @@ import { OnlineUser } from 'src/app/_models/onlineUser';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  onlineUsers: OnlineUser[];
+  onlineUsers: OnlineUser[] = [];
 
-  constructor() { }
+  constructor(private signalR: SignalRService) { }
 
   ngOnInit() {
-    this.onlineUsers = new Array<OnlineUser>();
-    this.onlineUsers.push({ id: 1, username: "Vova", connectionId: "5" },
-    { id: 2, username: "peter", connectionId: "6" });
+    this.onlineUsers.push({ username: "Vova", connectionId: "5", isBusy: true },
+    { username: "peter", connectionId: "6", isBusy: false });
+    this.signalR.onlineUsers.forEach(item => this.onlineUsers.push(item));
+    this.signalR.userConnected.subscribe((user: OnlineUser) => {
+      this.onlineUsers.push(user);
+    });
+    this.signalR.userDisconnected.subscribe((user: OnlineUser) => {
+      const index: number = this.onlineUsers.indexOf(user);
+      if (index !== -1) {
+        this.onlineUsers.splice(index, 1);
+      }
+    });
   }
 
 }
