@@ -13,8 +13,6 @@ export class UserListComponent implements OnInit {
   constructor(private signalR: SignalRService) { }
 
   ngOnInit() {
-    this.onlineUsers.push({ username: "Vova", connectionId: "5", isBusy: true },
-    { username: "peter", connectionId: "6", isBusy: false });
     this.signalR.onlineUsers.forEach(item => this.onlineUsers.push(item));
     this.signalR.userConnected.subscribe((user: OnlineUser) => {
       this.onlineUsers.push(user);

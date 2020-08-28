@@ -49,7 +49,6 @@ namespace Seabattle.API
             });
             app.UseCors(new CorsOptions { PolicyProvider = provide });
             app.MapSignalR(new Microsoft.AspNet.SignalR.HubConfiguration { EnableDetailedErrors = true, EnableJSONP = true });
-            //config.MessageHandlers.Add(new PreflightRequestsHandler());
 
             var issuer = ConfigurationManager.AppSettings["issuer"];
             var secret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["secret"]);
@@ -74,24 +73,6 @@ namespace Seabattle.API
             });
 
             app.UseNinjectMiddleware(() => kernel).UseNinjectWebApi(config);
-        }
-
-        public class PreflightRequestsHandler : DelegatingHandler
-        {
-            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                if (request.Headers.Contains("Origin") && request.Method.Method == "OPTIONS")
-                {
-                    var response = new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
-                    response.Headers.Add("Access-Control-Allow-Origin", "*");
-                    response.Headers.Add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
-                    response.Headers.Add("Access-Control-Allow-Methods", "*");
-                    var tsc = new TaskCompletionSource<HttpResponseMessage>();
-                    tsc.SetResult(response);
-                    return tsc.Task;
-                }
-                return base.SendAsync(request, cancellationToken);
-            }
         }
     }
 }

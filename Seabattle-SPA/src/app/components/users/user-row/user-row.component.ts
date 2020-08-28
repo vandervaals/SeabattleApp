@@ -15,7 +15,7 @@ export class UserRowComponent implements OnInit {
   }
 
   inviteUser() {
-    console.log(this.user.connectionId);
+    console.log(this.user.ConnectionId);
   }
 
 }

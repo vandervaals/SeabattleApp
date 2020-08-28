@@ -1,5 +1,7 @@
 <div class="container pb-5 mt-5">
-  <div *ngFor="let user of onlineUsers">
-    <app-user-row [user]="user"></app-user-row>
+  <div class="row">
+    <div *ngFor="let user of onlineUsers" class="col-lg-2 col-md-3 col-sm-6">
+      <app-user-row [user]="user"></app-user-row>
+    </div>
   </div>
 </div>

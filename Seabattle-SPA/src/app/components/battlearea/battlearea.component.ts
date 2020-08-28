@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { Area } from 'src/app/_models/area';
+import { GameService } from 'src/app/_services/game.service';
+import { SignalRService } from 'src/app/_services/signalR.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
+import { Shot } from 'src/app/_models/shot';
+import { Answer } from 'src/app/_models/answer';
 
 @Component({
   selector: 'app-battlearea',
@@ -19,10 +24,12 @@ export class BattleareaComponent implements OnInit {
   private pixelToOneStep: number;
   private areaSize: number;
   private area: Area;
+  private gameId: number;
 
   public startGame: boolean;
 
-  constructor() { }
+  constructor(private game: GameService, private signalR: SignalRService,
+              private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.yourCtx = this.yourArea.nativeElement.getContext('2d');
@@ -56,8 +63,29 @@ export class BattleareaComponent implements OnInit {
   }
 
   makeShot(event) {
-    this.drawCircle(Math.floor(event.offsetX / this.pixelToOneStep),
-    Math.floor(event.offsetY / this.pixelToOneStep), this.enemyCtx);
+    if (!this.startGame) {
+      return;
+    }
+
+    const shot: Shot = { x: Math.floor(event.offsetX / this.pixelToOneStep),
+                          y: Math.floor(event.offsetY / this.pixelToOneStep) }
+    this.game.shot(shot).subscribe((result: Answer) => {
+      if (result.inTarget) {
+        this.drawCross(shot.x, shot.y, this.enemyCtx);
+      } else {
+        this.drawCircle(shot.x, shot.y, this.enemyCtx);
+        this.startGame = false;
+      }
+
+      if (!result.gameContinue) {
+        if (result.areYouWinner) {
+          this.alertify.success('You win!!!');
+        } else {
+          this.alertify.success('You lost...');
+        }
+        this.startGame = false;
+      }
+    });
   }
 
   drawCross(x: number, y: number, ctx: CanvasRenderingContext2D) {
@@ -93,6 +121,12 @@ export class BattleareaComponent implements OnInit {
   }
 
   beginGame() {
+    this.game.register(this.area.ships, this.signalR.connsectionId).subscribe((result) => {
+      this.gameId = result;
+      this.alertify.success('Game start');
+    }, error => {
+      this.alertify.error('Game register failed');
+    });
     this.startGame = true;
   }
 

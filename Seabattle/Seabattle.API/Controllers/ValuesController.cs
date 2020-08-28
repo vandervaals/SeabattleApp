@@ -10,6 +10,7 @@ namespace Seabattle.API.Controllers
     public class ValuesController : ApiController
     {
         // GET api/values
+        [Authorize]
         public IEnumerable<string> Get()
         {
             var t = User;

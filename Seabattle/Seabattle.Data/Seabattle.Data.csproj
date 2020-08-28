@@ -62,14 +62,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contexts\Configuration.cs" />
-    <Compile Include="Contexts\Initializer.cs" />
+    <Compile Include="Contexts\GameDbConfiguration.cs" />
     <Compile Include="Contexts\SeabattleContext.cs" />
+    <Compile Include="Migrations\202008281031372_AddGame.cs" />
+    <Compile Include="Migrations\202008281031372_AddGame.designer.cs">
+      <DependentUpon>202008281031372_AddGame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AreaDb.cs" />
+    <Compile Include="Models\CellDb.cs" />
+    <Compile Include="Models\GameDb.cs" />
+    <Compile Include="Models\ShipDb.cs" />
+    <Compile Include="Models\ShotDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202008281031372_AddGame.resx">
+      <DependentUpon>202008281031372_AddGame.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

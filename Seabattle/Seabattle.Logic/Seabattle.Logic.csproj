@@ -88,14 +88,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\IdentityExtensions.cs" />
+    <Compile Include="Models\AnswerDto.cs" />
+    <Compile Include="Models\AreaDto.cs" />
+    <Compile Include="Models\CellDto.cs" />
+    <Compile Include="Models\GameDto.cs" />
     <Compile Include="Models\NewUserDto.cs" />
     <Compile Include="Models\OnlineUser.cs" />
+    <Compile Include="Models\ShipDto.cs" />
+    <Compile Include="Models\ShotDto.cs" />
     <Compile Include="Models\UserDto.cs" />
-    <Compile Include="Profiles\SeabattleProfile.cs" />
+    <Compile Include="Profiles\AreaProfile.cs" />
+    <Compile Include="Profiles\CellProfile.cs" />
+    <Compile Include="Profiles\GameProfile.cs" />
+    <Compile Include="Profiles\ShipProfile.cs" />
+    <Compile Include="Profiles\ShotProfile.cs" />
     <Compile Include="Profiles\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeabattleDIModule.cs" />
+    <Compile Include="Services\Contracts\IGameService.cs" />
     <Compile Include="Services\Contracts\IUserService.cs" />
+    <Compile Include="Services\GameServise.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

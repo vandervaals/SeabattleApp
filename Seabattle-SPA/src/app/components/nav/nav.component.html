@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">Battleship</a>
+  <div class="container">
+    <a class="navbar-brand" [routerLink]="['/home']">Seabattle</a>
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active">
@@ -11,15 +12,13 @@
       <li class="nav-item" outerLinkActive="active">
         <a class="nav-link" [routerLink]="['/battlearea']">Battlearea</a>
       </li>
-      <li class="nav-item" outerLinkActive="active">
-        <a class="nav-link" (click)="logout()">Logout</a>
-      </li>
     </ul>
 
     <div *ngIf="loggedIn()">
       <a class="text-light">
-        Welcome!
+        Welcome {{authService.decodeToken?.sub| titlecase}}!
       </a>
+      <button class="btn btn-success my-2 my-sm-0" (click)="logout()">Logout</button>
     </div>
 
     <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
@@ -27,5 +26,5 @@
       <input class="form-control mr-sm-2" name="password" type="password" placeholder="Password" required  [(ngModel)]="model.password">
       <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
     </form>
-
+  </div>
 </nav>

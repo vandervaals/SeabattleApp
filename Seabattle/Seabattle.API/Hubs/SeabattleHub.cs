@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Seabattle.API.Models;
 using Seabattle.Logic.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Seabattle.API.Hubs
 {
     public interface ISeabattleClient
     {
-        Task OnConnected(List<OnlineUser> users);
+        Task OnConnected(OnConnectDto result);
 
         Task OnNewUserConnected(OnlineUser user);
 
@@ -39,7 +40,7 @@ namespace Seabattle.API.Hubs
                 Users.Add(user);
 
                 // Посылаем сообщение текущему пользователю
-                await Clients.Caller.OnConnected(Users);
+                await Clients.Caller.OnConnected(new OnConnectDto { Users = Users, ConnectionId = id });
 
                 // Посылаем сообщение всем пользователям, кроме текущего
                 await Clients.AllExcept(id).OnNewUserConnected(user);

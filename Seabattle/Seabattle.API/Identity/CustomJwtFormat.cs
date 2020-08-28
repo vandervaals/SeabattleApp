@@ -3,12 +3,14 @@ using Microsoft.Owin.Security;
 using System;
 using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
-using System.Text;
+using Microsoft.Owin.Security.DataHandler.Encoder;
+
 
 namespace Seabattle.API.Identity
 {
     public class CustomJwtFormat: ISecureDataFormat<AuthenticationTicket>
     {
+        private static readonly byte[] _secret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["secret"]);
         private readonly string _issuer;
 
         public CustomJwtFormat(string issuer)
@@ -23,8 +25,7 @@ namespace Seabattle.API.Identity
                 throw new ArgumentNullException(nameof(data));
             }
 
-            var _secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["secret"]));
-            var signingKey = new SigningCredentials(_secret, SecurityAlgorithms.HmacSha256Signature);
+            var signingKey = new SigningCredentials(new SymmetricSecurityKey(_secret), SecurityAlgorithms.HmacSha256);
             var issued = data.Properties.IssuedUtc;
             var expires = data.Properties.ExpiresUtc;
 

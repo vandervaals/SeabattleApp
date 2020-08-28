@@ -3,7 +3,7 @@ import { ShipData } from './shipData';
 
 export class Area {
     private matrix: number[][];
-    private ships: Ship[];
+    public ships: Ship[];
 
     constructor() {
         this.refreshShipsLocation();
@@ -95,10 +95,10 @@ export class Area {
         const ship = new Ship();
         while (k < shipData.decks) {
           this.matrix[shipData.x + k * shipData.kx][shipData.y + k * shipData.ky] = 1;
-          ship.cells.push({x: shipData.x + k * shipData.kx, y: shipData.y + k * shipData.ky});
+          ship.Cells.push({x: shipData.x + k * shipData.kx, y: shipData.y + k * shipData.ky, isAlive: true});
           k++;
         }
-        ship.isHorizontal = shipData.kx === 1;
+        ship.IsHorizontal = shipData.kx === 1;
         return ship;
     }
 

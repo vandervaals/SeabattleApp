@@ -18,8 +18,6 @@ namespace Seabattle.API.Identity
 
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            //context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
-
             var service = _kernel.Get<IUserService>();
             var user =  service.GetUser(context.UserName, context.Password);
             if (user.Value == null)
@@ -44,8 +42,8 @@ namespace Seabattle.API.Identity
         private static ClaimsIdentity SetClaimsIdentity(UserDto user)
         {
             var identity = new ClaimsIdentity("JWT");
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+            identity.AddClaim(new Claim("sub", user.UserName));
 
             return identity;
         }

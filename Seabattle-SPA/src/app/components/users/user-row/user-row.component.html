@@ -1,8 +1,10 @@
-<div class="row">
-  <div class=".col-md-8">
-    <p>{{user.username}}</p>
-  </div>
-  <div class=".col-md-4">
-    <button type="button" class="btn btn-secondary" (click)="inviteUser()">Invite</button>
+<div class="card mb-4">
+  <div class="card-body p-1">
+    <h4 class="card-title text-center mb-1"><i class="fa fa-user"></i>
+      {{user.UserName}}
+    </h4>
+    <p class="card-text text-muted text-center">
+      <button type="button" class="btn btn-secondary" (click)="inviteUser()">Invite</button>
+    </p>
   </div>
 </div>

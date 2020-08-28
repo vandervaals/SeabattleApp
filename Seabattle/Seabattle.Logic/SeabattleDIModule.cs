@@ -16,24 +16,25 @@ namespace Seabattle.Logic
     {
         public override void Load()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfiles(new List<Profile>{ new UserProfile() }));
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfiles(new List<Profile>
+            {
+                new UserProfile(),
+                new GameProfile(),
+                new AreaProfile(),
+                new ShipProfile(),
+                new CellProfile(),
+                new ShipProfile()
+            }));
             var mapper = configuration.CreateMapper();
 
             this.Bind<IMapper>().ToConstant(mapper);
             this.Bind<SeabattleContext>().ToSelf();
-            //this.Bind<IValidator<PizzaDto>>().To<PizzaDtoValidator>();
 
-            //this.Bind<IPizzaService>().ToMethod(ctx =>
-            //{
-            //    var service = new PizzaService(ctx.Kernel.Get<PizzaShopContext>(), ctx.Kernel.Get<IMapper>(), ctx.Kernel.Get<ILogger>());
-            //    return new ProxyGenerator().CreateInterfaceProxyWithTarget<IPizzaService>(service, new ValidationInterceptor(ctx.Kernel));
-            //});
 
             this.Bind<IUserStore<IdentityUser>>().ToMethod(ctx => new UserStore<IdentityUser>(ctx.Kernel.Get<SeabattleContext>()));
             this.Bind<UserManager<IdentityUser>>().ToMethod(ctx =>
             {
                 var manager = new UserManager<IdentityUser>(ctx.Kernel.Get<IUserStore<IdentityUser>>());
-                //manager.EmailService = new PizzaEmailService();
                 manager.UserValidator = new UserValidator<IdentityUser>(manager)
                 {
                     AllowOnlyAlphanumericUserNames = false,
@@ -51,12 +52,8 @@ namespace Seabattle.Logic
                 return manager;
             });
 
-            //this.Bind<IUserService>().ToMethod(ctx =>
-            //{
-            //    return new UserService(ctx.Kernel.Get<UserManager<IdentityUser>>(), ctx.Kernel.Get<IMapper>());
-            //});
-
             this.Bind<IUserService>().To<UserService>();
+            this.Bind<IGameService>().To<GameServise>();
         }
     }
 }

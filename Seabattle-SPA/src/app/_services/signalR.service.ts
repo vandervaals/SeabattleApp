@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { SignalR, ISignalRConnection } from 'ng2-signalr';
 import { OnlineUser } from '../_models/onlineUser';
+import { OnConnect } from '../_models/onConnect';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ export class SignalRService {
   private connection: ISignalRConnection;
   userConnected = new EventEmitter<OnlineUser>();
   userDisconnected = new EventEmitter<OnlineUser>();
+  connsectionId: string;
 
   onlineUsers: OnlineUser[] = [];
 
@@ -22,15 +24,16 @@ export class SignalRService {
       .then((c) => {
         this.connection = c;
         this.connection
-          .listenFor<OnlineUser[]>('OnConnected')
-          .subscribe((list) => {
-            list.forEach(item => this.onlineUsers.push(item));
-            list.forEach(item => this.userConnected.emit(item));
+          .listenFor<OnConnect>('OnConnected')
+          .subscribe((answer) => {
+            answer.Users.forEach(item => this.onlineUsers.push(item));
+            answer.Users.forEach(item => this.userConnected.emit(item));
+            this.connsectionId = answer.ConnectionId;
           });
         this.connection
           .listenFor<OnlineUser>('OnNewUserConnected')
           .subscribe((dto) => {
-            this.onlineUsers.push(dto)
+            this.onlineUsers.push(dto);
             this.userConnected.emit(dto);
           });
         this.connection

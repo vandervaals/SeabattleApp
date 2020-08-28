@@ -1,5 +1,5 @@
 export interface OnlineUser {
-    username: string;
-    connectionId: string;
-    isBusy: boolean;
+    UserName: string;
+    ConnectionId: string;
+    IsBusy: boolean;
 }
