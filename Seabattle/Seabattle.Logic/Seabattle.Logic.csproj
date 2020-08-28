@@ -87,6 +87,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComputerLogic\ShipGeneration\ShipData.cs" />
+    <Compile Include="ComputerLogic\ShipGeneration\ShipGenerator.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Models\AnswerDto.cs" />
     <Compile Include="Models\AreaDto.cs" />

@@ -2,6 +2,7 @@
 using CSharpFunctionalExtensions;
 using Seabattle.Data.Contexts;
 using Seabattle.Data.Models;
+using Seabattle.Logic.ComputerLogic.ShipGeneration;
 using Seabattle.Logic.Models;
 using Seabattle.Logic.Services.Contracts;
 using System;
@@ -23,12 +24,17 @@ namespace Seabattle.Logic.Services
 
         public Result<int> CreateGame(List<ShipDto> ships, string connectionId)
         {
+            var enemyShips = new ShipGenerator().GenerateShips();
             var model = new GameDto
             {
                 ConnectionId = connectionId,
                 UserArea = new AreaDto
                 {
                     Ships = ships
+                },
+                ComputerArea = new AreaDto
+                {
+                    Ships = enemyShips
                 }
             };
 
